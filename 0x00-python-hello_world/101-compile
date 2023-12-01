@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z "$PYFILE" ]; then
+    echo "PYFILE environment variable is not set."
+    exit 1
+fi
+
+extension="${PYFILE##*.}"
+
+if [ "$extension" != "py" ]; then
+    echo "File is not a Python script."
+    exit 1
+fi
+
+python3 -m py_compile "$PYFILE"
+exit_code=$?
+
+if [ $exit_code -eq 0 ]; then
+    echo "Compiling $PYFILE ..."
+else
+    echo "Compilation failed for $PYFILE."
+fi
+
